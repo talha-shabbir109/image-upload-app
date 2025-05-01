@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: image-upload-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: image-upload-app
+  template:
+    metadata:
+      labels:
+        app: image-upload-app
+    spec:
+      containers:
+        - name: image-upload-container
+          image: talhashabbir109/image-upload-app
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+            - mountPath: /app
+              name: app-volume
+      volumes:
+        - name: app-volume
+          emptyDir: {} # optional: can be PVC later
