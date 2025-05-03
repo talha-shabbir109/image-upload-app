@@ -13,6 +13,9 @@ RUN npm install
 # 5. Copy the entire project
 COPY . .
 
+ENV NODE_ENV=production
+ENV DATABASE_URL="file:./dev.db"
+
 # 6. Build the Next.js app
 RUN npm run build
 
