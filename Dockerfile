@@ -16,6 +16,8 @@ COPY . .
 # 6. Build the Next.js app
 RUN npm run build
 
+RUN npm run start
+
 # 7. Expose port (important for Azure)
 EXPOSE 3000
 
