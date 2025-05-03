@@ -1,28 +1,28 @@
 # 1. Base Image
 FROM node:20-alpine
 
-# 2. Set working directory inside container
+# 2. Set working directory
 WORKDIR /app
 
-# 3. Copy package.json and package-lock.json
+# 3. Copy dependencies
 COPY package.json package-lock.json ./
 
-# 4. Install production dependencies
+# 4. Install dependencies
 RUN npm install
 
-# 5. Copy the entire project
+# 5. Copy the rest of the code
 COPY . .
 
+# 6. Set environment variables (optional, depending on your env usage)
 ENV NODE_ENV=production
 ENV DATABASE_URL="file:./dev.db"
 
-# 6. Build the Next.js app
+# 7. Prisma generate (CRITICAL for Next.js + Prisma)
+RUN npx prisma generate
+
+# 8. Build Next.js app
 RUN npm run build
 
-RUN npm run start
-
-# 7. Expose port (important for Azure)
+# 9. Expose and start
 EXPOSE 3000
-
-# 8. Start the app
 CMD ["npm", "run", "start"]
